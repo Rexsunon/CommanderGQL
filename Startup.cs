@@ -28,11 +28,13 @@ namespace CommanderGQL
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // setup connection string
             services.AddDbContext<AppDbContext>(opt => opt.UseMySql(
                 Configuration.GetConnectionString("CommanderConnectionString"), 
                 MySqlServerVersion.AutoDetect(Configuration.GetConnectionString("CommanderConnectionString")))
             );
 
+            // added graphql query type
             services.AddGraphQLServer()
                 .AddQueryType<Query>();
         }
@@ -49,10 +51,8 @@ namespace CommanderGQL
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                // configure graphql to endpoints
+                endpoints.MapGraphQL();
             });
         }
     }
