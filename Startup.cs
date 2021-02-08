@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommanderGQL.Data;
+using CommanderGQL.GraphQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,9 +29,12 @@ namespace CommanderGQL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(opt => opt.UseMySql(
-                    Configuration.GetConnectionString("CommanderConnectionString"), 
-                    MySqlServerVersion.AutoDetect(Configuration.GetConnectionString("CommanderConnectionString")))
-                );
+                Configuration.GetConnectionString("CommanderConnectionString"), 
+                MySqlServerVersion.AutoDetect(Configuration.GetConnectionString("CommanderConnectionString")))
+            );
+
+            services.AddGraphQLServer()
+                .AddQueryType<Query>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
