@@ -30,7 +30,7 @@ namespace CommanderGQL
         public void ConfigureServices(IServiceCollection services)
         {
             // setup connection string
-            services.AddDbContext<AppDbContext>(opt => opt.UseMySql(
+            services.AddPooledDbContextFactory<AppDbContext>(opt => opt.UseMySql(
                 Configuration.GetConnectionString("CommanderConnectionString"), 
                 MySqlServerVersion.AutoDetect(Configuration.GetConnectionString("CommanderConnectionString")))
             );
